@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# parse log for IP and HTTP
-# calculate and put num occurences up front; order from greatest to least
+# Parses Apache log files in list format.
+#   Groups visitors by IP and HTTP status code.
+#   Displays the number of occurrences, IP, and HTTP status
+#+  code of each log, in sorted order.
 
-file="apache-access.log"
-awk '{print $1, $9}' $file | sort | uniq -c | sort -nr
+awk '{ print $1 " " $9}' apache-access.log | sort | uniq -c | sort -rn
