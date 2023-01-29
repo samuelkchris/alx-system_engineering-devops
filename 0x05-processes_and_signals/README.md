@@ -3,7 +3,7 @@
 > system engineering and devOps pertaining to processes and signals: ```ps```,
 > ```pgrep```, ```kill```, ```pkill```, ```SIGINT``` (Ctrl-C), ```SIGTERM```(```kill```), ```SIGQUIT```(Ctrl-|) and more
 
-### Description of what each file shows:
+### Description of each file:
 * Files that start with:
 0. display bash script's pid
 1. list processes
