@@ -11,7 +11,7 @@ sudo apt-get update
 sudo apt-get -y install nginx
 sudo service nginx start
 
-echo "School" | sudo tee /usr/share/nginx/html/index.html
+echo "Hello World" | sudo tee /usr/share/nginx/html/index.html
 
 # melissax.online/redirect_me redirects to google.com (add to line 30)
 sudo sed -i "30i $ADD301_REDIRECT" /etc/nginx/sites-available/default
