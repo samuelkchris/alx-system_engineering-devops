@@ -1,35 +1,20 @@
 #!/usr/bin/env bash
-#!/bin/bash
-
-# Update package list
-sudo apt-get update
 
 # Install nginx
-sudo apt-get install nginx -y
+apt-get update
+apt-get install -y nginx
 
-# Create configuration file
-sudo bash -c 'cat > /etc/nginx/sites-available/default' << EOF
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+# Configure nginx to listen on port 80
+sed -i 's/^\(listen\s*\)[[:digit:]]*\(.*$\)/\180/' /etc/nginx/sites-available/default
 
-    root /var/www/html;
-    index index.html;
+# Start nginx
+service nginx start
 
-    server_name ssekizinvu.tech;
+# Configure default server block to return "Hello World!"
+echo "Hello World!" > /var/www/html/index.html
 
-    location / {
-        return 200 "Hello World!";
-    }
-}
-EOF
+# Check that nginx is accepting traffic on port 80
+curl -s -o /dev/null -w "%{http_code}" http://localhost/ | grep 200
 
-# Restart nginx
-sudo service nginx restart
-
-# Check nginx status and response
-if curl -s localhost | grep -q "Hello World!"; then
-  echo "Nginx is installed and configured correctly."
-else
-  echo "Nginx configuration error: / response is not 'Hello World!'."
-fi
+# Check that nginx returns "Hello World!" at its root
+curl -s http://localhost/ | grep "Hello World!"
