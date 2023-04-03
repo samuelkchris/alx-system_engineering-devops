@@ -15,7 +15,7 @@ server {
     root /var/www/html;
     index index.html;
 
-    server_name _;
+    server_name ssekizinvu.tech;
 
     location / {
         return 200 "Hello World!";
