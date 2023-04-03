@@ -1,15 +1,26 @@
 #!/usr/bin/env bash
-# installs nginx and configure it to listen on port 80 make it return a page with
-# "Hello World" in it
+# Update package list
+sudo apt-get update
 
-apt update
-apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-sudo mkdir -p /var/www/html
-sudo chmod -R 755 /var/www
-echo 'Hello World!' > /var/www/html/index.html
-if [ "$(pgrep -c nginx)" -le 0 ]; then
-	service nginx start
-else
-	service nginx restart
-fi
+# Install nginx
+sudo apt-get install nginx -y
+
+# Create configuration file
+sudo bash -c 'cat > /etc/nginx/sites-available/default' << EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
+
+    server_name _;
+
+    location / {
+        return 200 "Hello World!";
+    }
+}
+EOF
+
+# Restart nginx
+sudo service nginx restart
