@@ -1,6 +1,7 @@
-# SSH client configuration to use the private key ~/.ssh/school
-# SSH client configuration to refuse to authenticate using a password
-
-Host 54.160.79.235
-     PasswordAuthentication no
-     IdentityFile ~/.ssh/school
+# Configure ssh client so that you can connect to a server without typing a password.
+Host *
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    GSSAPIDelegateCredentials no
+    IdentityFile ~/.ssh/school
