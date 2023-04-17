@@ -1,0 +1,17 @@
+#install ufw by running the following command:
+sudo apt-get install ufw
+
+#set the default policy for incoming traffic to deny:
+sudo ufw default deny incoming
+
+#allow incoming SSH traffic on port 22:
+sudo ufw allow 22/tcp
+
+#allow incoming HTTPS traffic on port 443:
+sudo ufw allow 443/tcp
+
+#allow incoming HTTP traffic on port 80:
+sudo ufw allow 80/tcp
+
+#enable ufw:
+sudo ufw enable
