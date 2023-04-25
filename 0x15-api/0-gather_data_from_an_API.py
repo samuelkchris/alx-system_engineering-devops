@@ -2,36 +2,33 @@
 """
 Request from API; Return TODO list progress given employee ID
 """
-import sys
 import requests
+from sys import argv
 
-# Check if an argument (employee ID) has been provided
-if len(sys.argv) < 2:
-    print("Please provide an employee ID as an argument.")
-    sys.exit()
 
-employee_id = int(sys.argv[1])
+def display():
+    """return API data"""
+    users = requests.get("http://jsonplaceholder.typicode.com/users")
+    for u in users.json():
+        if u.get('id') == int(argv[1]):
+            EMPLOYEE_NAME = (u.get('name'))
+            break
+    TOTAL_NUM_OF_TASKS = 0
+    NUMBER_OF_DONE_TASKS = 0
+    TASK_TITLE = []
+    todos = requests.get("http://jsonplaceholder.typicode.com/todos")
+    for t in todos.json():
+        if t.get('userId') == int(argv[1]):
+            TOTAL_NUM_OF_TASKS += 1
+            if t.get('completed') is True:
+                    NUMBER_OF_DONE_TASKS += 1
+                    TASK_TITLE.append(t.get('title'))
+    print("Employee {} is done with tasks({}/{}):".format(EMPLOYEE_NAME,
+                                                          NUMBER_OF_DONE_TASKS,
+                                                          TOTAL_NUM_OF_TASKS))
+    for task in TASK_TITLE:
+        print("\t {}".format(task))
 
-# Make a GET request to the API to retrieve the employee's information
-response = requests.get(f"https://jsonplaceholder.typicode.com/users/{employee_id}")
-employee = response.json()
 
-# Make a GET request to the API to retrieve the employee's TODO list
-response = requests.get(f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}")
-todo_list = response.json()
-
-# Count the number of completed and non-completed tasks
-num_completed_tasks = 0
-total_num_tasks = len(todo_list)
-
-for task in todo_list:
-    if task["completed"]:
-        num_completed_tasks += 1
-
-# Print the employee's TODO list progress
-print(f"Employee {employee['name']} is done with tasks({num_completed_tasks}/{total_num_tasks}):")
-
-# Print the titles of completed tasks, with a tabulation and a space before each title
-for task in todo_list:
-    if task["completed"]:
-        print(f"\t {task['title']}")
+if __name__ == "__main__":
+    display()
